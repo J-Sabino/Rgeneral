@@ -4,6 +4,8 @@ This is a repository of R code that works for me. Some of the code is taken from
 Every .R file has also a .html file with a knitr log from RStudio.
 
 
+
+General notes:
 1. Colors:
 This website is good to get HEX code for colours (it has colorblind safe mode):
 http://colorbrewer2.org/#type=sequential&scheme=YlOrRd&n=3
