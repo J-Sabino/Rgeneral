@@ -1,6 +1,6 @@
 # Rgeneral
 This is a repository of R code that works for me. Some of the code is taken from other sources.
-
+Every .R file has also a .html file with a knitr log from RStudio.
 
 
 1. Colors:
