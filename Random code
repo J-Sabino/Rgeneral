@@ -1,0 +1,11 @@
+
+
+
+
+# Quartiles
+# To create the quartiles vor variable with data.Y 
+
+data.Y <- within(data.Y, quartile_variable.X <- as.factor(as.integer(cut(variable.X, quantile(variable, probs=0:4/4), include.lowest=TRUE))))
+data.Y$quartile_variable.X
+
+
