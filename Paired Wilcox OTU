@@ -1,0 +1,43 @@
+wilcox_otu_paired_phy <- function(a,b,ID)
+{ 
+  pheno_a <- data.frame(sample_data(a))
+  pheno_b <- data.frame(sample_data(b))
+  
+  pheno_a <- pheno_a[order(pheno_a[[ID]]),]
+  pheno_b <- pheno_b[order(pheno_b[[ID]]),]
+  
+  pheno_a <- pheno_a[pheno_a[[ID]] %in% pheno_b[[ID]],]
+  pheno_b <- pheno_b[pheno_b[[ID]] %in% pheno_a[[ID]],]
+
+  otu_a <- data.frame(otu_table(a))
+  otu_b <- data.frame(otu_table(b))
+  
+  otu_a <- otu_a[ row.names(otu_a) %in% row.names(pheno_a), ]
+  otu_b <- otu_b[ row.names(otu_b) %in% row.names(pheno_b), ]
+  
+  otu_a <- otu_a[ order(match(row.names(otu_a), row.names(pheno_a))), ]
+  otu_b <- otu_b[ order(match(row.names(otu_b), row.names(pheno_b))), ]
+  
+  mat1 <- matrix(nrow=ncol(otu_a),ncol=1)
+  rownames(mat1) <- colnames(otu_a)
+  
+  for (i in colnames(otu_a)) 
+  { 
+    t=wilcox.test(otu_a[,i],otu_b[,i], paired=T, exact=FALSE);
+    p<-t$p.value;
+    mat1[i,1] <- p
+  }
+  
+  colnames(mat1)[1] <- "pvalue"
+  df1 <- data.frame(mat1)
+  adj1 <- p.adjust(df1$pvalue,method="BH", n=ncol(otu_a))
+  df2<-cbind(df1,adj1)
+  significant <- subset(df1, pvalue<0.05)
+  significant2 <- data.frame(significant[order(significant$pvalue,decreasing=TRUE),])
+  significant3 <- subset(df2, adj1<0.05)
+  cat("Significant BEFORE multiple testing correction\n")
+  print(significant)
+  cat("\nSignificant AFTER multiple testing correction (FDR)\n")
+  print(significant3)
+  
+}
