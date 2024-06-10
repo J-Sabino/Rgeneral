@@ -41,3 +41,6 @@ wilcox_otu_paired_phy <- function(a,b,ID)
   print(significant3)
   
 }
+
+
+# Use: wilcox_otu_paired_phy(V1,V2,"patient_study_ID")
